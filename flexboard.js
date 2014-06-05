@@ -2,7 +2,7 @@ var Flexboard = (function () {
     "use strict";
 
     var container,
-        items = {};
+        items = [];
 
     /**
      * Give value to all variables and initialize event listeners
@@ -20,10 +20,11 @@ var Flexboard = (function () {
      *          updateInterval: 25000
      *      });
      * @param {object} item Element to be added
-     * @return {object} The original item, with added information
+     * @return {object} The new item, which extends the original one
      */
     function addItem(item) {
         var iframe = document.createElement("iframe");
+        var newItem = {};
 
         // Populate the values
         iframe.src = item.url;
@@ -37,7 +38,8 @@ var Flexboard = (function () {
             if (item.updateInterval < 1000) {
                 console.error("No interval applied - updateInterval must be greater than 1000 (1 second)");
             } else {
-                item.updateIntervalHandle = window.setInterval(function () {
+                newItem.updateInterval = item.updateInterval;
+                newItem.updateIntervalHandle = window.setInterval(function () {
                     iframe.src = "about:blank";
                     iframe.src = item.url;
                 }, item.updateInterval);
@@ -45,23 +47,23 @@ var Flexboard = (function () {
         }
 
         // Add the item to the collection
-        item.id = generateItemId();
-        item.domNode = iframe;
-        items[item.id] = item;
+        newItem.id = item.id || generateItemId();
+        newItem.url = item.url;
+        newItem.domNode = iframe;
+        items.push(newItem);
 
-        return item;
+        return newItem;
     }
 
     /**
      * Removes an element from the board
      *
-     * @param {number} itemId Unique identifier of the desired item
+     * @param {object} item Item to be deleted
      * @return {boolean} Success removing the item
      */
-    function removeItem(itemId) {
-        var item = items[itemId];
-        if (!item) {
-            console.warn("Tried to remove an unexisting item");
+    function removeItem(item) {
+        if (typeof item !== "object") {
+            console.error("Invalid parameter, must be an object:", item);
             return false;
         }
 
@@ -74,7 +76,7 @@ var Flexboard = (function () {
         container.removeChild(item.domNode);
 
         // Remove the item from the collection
-        delete items[itemId];
+        items.splice(items.indexOf(item));
 
         return true;
     }
@@ -98,9 +100,9 @@ var Flexboard = (function () {
      * Removes all items from the board
      */
     function clear() {
-        Object.getOwnPropertyNames(items).forEach(function (itemId) {
-            removeItem(itemId);
-        });
+        for (var i = items.length - 1; i >= 0; i--) {
+            removeItem(items[i]);
+        };
     }
 
     /**
@@ -117,14 +119,28 @@ var Flexboard = (function () {
      * Retrieves an item from the internal collection
      *
      * @param {number} itemId Unique identifier of the desired item
-     * @return {object} Item
+     * @return {object} The requested item, or null if not found
      */
     function getItem(itemId) {
-        return items[itemId];
+        for (var i = 0; i < items.length; i++) {
+            if (items[i]["id"] === itemId) {
+                return items[i];
+            }
+        };
+        return null;
     }
 
     /**
-     * Helper function that generates a unique random id for storing items
+     * Retrieves all the items in the internal collection
+     *
+     * @return {array} All the items in the internal collection
+     */
+    function getAllItems() {
+        return items;
+    }
+
+    /**
+     * Helper function that generates a unique random id that can be used for storing items
      *
      * @return {number} Unique identifier
      */
@@ -143,6 +159,7 @@ var Flexboard = (function () {
     return {
         addItem:            addItem,
         clear:              clear,
+        getAllItems:        getAllItems,
         getItem:            getItem,
         loadCollection:     loadCollection,
         removeItem:         removeItem,
