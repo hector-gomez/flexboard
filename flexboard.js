@@ -152,6 +152,32 @@ var Flexboard = (function () {
         return id;
     }
 
+    /**
+     * Stores the current state of the application so that it can be resumed in the future
+     */
+    function saveCurrentState() {
+        var collection = [];
+
+        // Save only the relevant data (exclude DOM nodes and IDs)
+        items.forEach(function (item) {
+            collection.push({
+                "url": item.url,
+                "updateInterval": item.updateInterval
+            });
+        });
+
+        // Save to local storage
+        localStorage.setItem("flexboard-items", JSON.stringify(collection));
+    }
+
+    /**
+     * Returns the application to the previously saved state
+     */
+    function loadSavedState() {
+        var storedCollection = JSON.parse(localStorage.getItem("flexboard-items"));
+        loadCollection(storedCollection);
+    }
+
     // Initialize the application once the body is ready
     window.onload = init;
 
@@ -162,7 +188,9 @@ var Flexboard = (function () {
         getAllItems:        getAllItems,
         getItem:            getItem,
         loadCollection:     loadCollection,
+        loadSavedState:     loadSavedState,
         removeItem:         removeItem,
+        saveCurrentState:   saveCurrentState,
         stopUpdating:       stopUpdating,
     };
 })();
