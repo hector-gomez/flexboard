@@ -21,6 +21,8 @@ body {
 
 .item {
     display: flex;
+    border: none;
+    height: 100%;
     margin: 5px;
     flex: 1 0 200px;
     flex-direction: row;
@@ -28,6 +30,4 @@ body {
     justify-content: flex-start;
     align-content: flex-start;
     align-items: flex-start;
-    background-color: red;
-    height: 100%;
 }
