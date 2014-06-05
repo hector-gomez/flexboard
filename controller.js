@@ -12,6 +12,11 @@ var Flexboard = (function () {
     /**
      * Add a new element to the board
      *
+     * @example
+     *      Flexboard.addItem({
+     *          url: "http://domain.com",
+     *          updateInterval: 25000
+     *      });
      * @param {object} item Element to be added
      */
     function addItem(item) {
@@ -23,6 +28,14 @@ var Flexboard = (function () {
 
         // Add the new element
         container.appendChild(iframe);
+
+        // Set the refresh rate, if necessary
+        if (item.updateInterval) {
+            item.updateIntervalHandle = window.setInterval(function () {
+                iframe.src = "about:blank";
+                iframe.src = item.url;
+            }, item.updateInterval);
+        }
     }
 
     // Initialize the application once the body is ready
