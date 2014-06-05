@@ -21,9 +21,8 @@ body {
 
 .item {
     display: flex;
-    border: none;
+    border: 0;
     height: 100%;
-    margin: 5px;
     flex: 1 0 200px;
     flex-direction: row;
     flex-wrap: wrap;
