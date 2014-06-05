@@ -95,6 +95,25 @@ var Flexboard = (function () {
     }
 
     /**
+     * Removes all items from the board
+     */
+    function clear() {
+        Object.getOwnPropertyNames(items).forEach(function (itemId) {
+            removeItem(itemId);
+        });
+    }
+
+    /**
+     * Populates a collection of items to the board
+     *
+     * @param {array} collection Array of objects that represent the items to be added
+     */
+    function loadCollection(collection) {
+        clear();
+        collection.forEach(addItem);
+    }
+
+    /**
      * Retrieves an item from the internal collection
      *
      * @param {number} itemId Unique identifier of the desired item
@@ -122,9 +141,11 @@ var Flexboard = (function () {
 
     // Exposed API
     return {
-        addItem: addItem,
-        getItem: getItem,
-        removeItem: removeItem,
-        stopUpdating: stopUpdating,
+        addItem:            addItem,
+        clear:              clear,
+        getItem:            getItem,
+        loadCollection:     loadCollection,
+        removeItem:         removeItem,
+        stopUpdating:       stopUpdating,
     };
 })();
