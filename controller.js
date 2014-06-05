@@ -20,6 +20,7 @@ var Flexboard = (function () {
      *          updateInterval: 25000
      *      });
      * @param {object} item Element to be added
+     * @return {object} The original item, with added information
      */
     function addItem(item) {
         var iframe = document.createElement("iframe");
@@ -47,6 +48,18 @@ var Flexboard = (function () {
         item.id = generateItemId();
         item.domNode = iframe;
         items[item.id] = item;
+
+        return item;
+    }
+
+    /**
+     * Retrieves an item from the internal collection
+     *
+     * @param {number} itemId Unique identifier of the desired item
+     * @return {object} Item
+     */
+    function getItem(itemId) {
+        return items[itemId];
     }
 
     /**
@@ -67,6 +80,7 @@ var Flexboard = (function () {
 
     // Exposed API
     return {
-        addItem: addItem
+        addItem: addItem,
+        getItem: getItem
     };
 })();
