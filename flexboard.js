@@ -76,7 +76,7 @@ var Flexboard = (function () {
         container.removeChild(item.domNode);
 
         // Remove the item from the collection
-        items.splice(items.indexOf(item));
+        items.splice(items.indexOf(item), 1);
 
         return true;
     }
