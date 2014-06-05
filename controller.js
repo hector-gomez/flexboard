@@ -31,10 +31,14 @@ var Flexboard = (function () {
 
         // Set the refresh rate, if necessary
         if (item.updateInterval) {
-            item.updateIntervalHandle = window.setInterval(function () {
-                iframe.src = "about:blank";
-                iframe.src = item.url;
-            }, item.updateInterval);
+            if (item.updateInterval < 1000) {
+                console.error("No interval applied - updateInterval must be greater than 1000 (1 second)");
+            } else {
+                item.updateIntervalHandle = window.setInterval(function () {
+                    iframe.src = "about:blank";
+                    iframe.src = item.url;
+                }, item.updateInterval);
+            }
         }
     }
 
