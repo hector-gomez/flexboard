@@ -47,7 +47,6 @@ var Flexboard = (function () {
         }
 
         // Add the item to the collection
-        newItem.id = item.id || generateItemId();
         newItem.url = item.url;
         newItem.domNode = iframe;
         items.push(newItem);
@@ -69,7 +68,7 @@ var Flexboard = (function () {
 
         // Stop updates,if necessary
         if (item.updateIntervalHandle) {
-            stopUpdating(item.id);
+            stopUpdating(item);
         }
 
         // Remove the element from the view
@@ -84,15 +83,15 @@ var Flexboard = (function () {
     /**
      * Ceases to automatically update an item
      *
-     * @param {number} itemId Unique identifier of the desired item
+     * @param {object} item Item that must stop refreshing its content
      * @return {boolean} Success stopping the updates
      */
-    function stopUpdating(itemId) {
-        if (!items[itemId] || !items[itemId].updateIntervalHandle) {
+    function stopUpdating(item) {
+        if (!item.updateIntervalHandle) {
             console.warn("Tried to stop updates on an item that doesn't exist or doesn't have updates");
             return false;
         }
-        window.clearInterval(items[itemId].updateIntervalHandle);
+        window.clearInterval(item.updateIntervalHandle);
         return true;
     }
 
@@ -116,40 +115,12 @@ var Flexboard = (function () {
     }
 
     /**
-     * Retrieves an item from the internal collection
-     *
-     * @param {number} itemId Unique identifier of the desired item
-     * @return {object} The requested item, or null if not found
-     */
-    function getItem(itemId) {
-        for (var i = 0; i < items.length; i++) {
-            if (items[i]["id"] === itemId) {
-                return items[i];
-            }
-        };
-        return null;
-    }
-
-    /**
      * Retrieves all the items in the internal collection
      *
      * @return {array} All the items in the internal collection
      */
     function getAllItems() {
         return items;
-    }
-
-    /**
-     * Helper function that generates a unique random id that can be used for storing items
-     *
-     * @return {number} Unique identifier
-     */
-    function generateItemId() {
-        var id;
-        do {
-            id = Math.floor(Math.random() * 10000000000);
-        } while(items[id]);
-        return id;
     }
 
     /**
@@ -186,7 +157,6 @@ var Flexboard = (function () {
         addItem:            addItem,
         clear:              clear,
         getAllItems:        getAllItems,
-        getItem:            getItem,
         loadCollection:     loadCollection,
         loadSavedState:     loadSavedState,
         removeItem:         removeItem,
