@@ -1,6 +1,8 @@
 var Flexboard = (function () {
+    "use strict";
 
-    var container;
+    var container,
+        items = {};
 
     /**
      * Give value to all variables and initialize event listeners
@@ -40,6 +42,24 @@ var Flexboard = (function () {
                 }, item.updateInterval);
             }
         }
+
+        // Add the item to the collection
+        item.id = generateItemId();
+        item.domNode = iframe;
+        items[item.id] = item;
+    }
+
+    /**
+     * Helper function that generates a unique random id for storing items
+     *
+     * @return {number} Unique identifier
+     */
+    function generateItemId() {
+        var id;
+        do {
+            id = Math.floor(Math.random() * 10000000000);
+        } while(items[id]);
+        return id;
     }
 
     // Initialize the application once the body is ready
