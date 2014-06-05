@@ -53,6 +53,21 @@ var Flexboard = (function () {
     }
 
     /**
+     * Ceases to automatically update an item
+     *
+     * @param {number} itemId Unique identifier of the desired item
+     * @return {boolean} Success stopping the updates
+     */
+    function stopUpdating(itemId) {
+        if (!items[itemId] || !items[itemId].updateIntervalHandle) {
+            console.warn("Tried to stop updates on an item that doesn't exist or doesn't have updates");
+            return false;
+        }
+        window.clearInterval(items[itemId].updateIntervalHandle);
+        return true;
+    }
+
+    /**
      * Retrieves an item from the internal collection
      *
      * @param {number} itemId Unique identifier of the desired item
@@ -81,6 +96,7 @@ var Flexboard = (function () {
     // Exposed API
     return {
         addItem: addItem,
-        getItem: getItem
+        getItem: getItem,
+        stopUpdating: stopUpdating,
     };
 })();
