@@ -1,0 +1,33 @@
+html {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+}
+
+#container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.item {
+    display: flex;
+    margin: 5px;
+    flex: 1 0 200px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+    background-color: red;
+    height: 100%;
+}
