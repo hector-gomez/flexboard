@@ -53,6 +53,33 @@ var Flexboard = (function () {
     }
 
     /**
+     * Removes an element from the board
+     *
+     * @param {number} itemId Unique identifier of the desired item
+     * @return {boolean} Success removing the item
+     */
+    function removeItem(itemId) {
+        var item = items[itemId];
+        if (!item) {
+            console.warn("Tried to remove an unexisting item");
+            return false;
+        }
+
+        // Stop updates,if necessary
+        if (item.updateIntervalHandle) {
+            stopUpdating(item.id);
+        }
+
+        // Remove the element from the view
+        container.removeChild(item.domNode);
+
+        // Remove the item from the collection
+        delete items[itemId];
+
+        return true;
+    }
+
+    /**
      * Ceases to automatically update an item
      *
      * @param {number} itemId Unique identifier of the desired item
@@ -97,6 +124,7 @@ var Flexboard = (function () {
     return {
         addItem: addItem,
         getItem: getItem,
+        removeItem: removeItem,
         stopUpdating: stopUpdating,
     };
 })();
