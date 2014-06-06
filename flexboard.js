@@ -132,15 +132,11 @@ var Flexboard = (function () {
             return false;
         }
 
-        var parentElement = item.domNode.parentElement,
-            containerDiv = document.createElement("div");
+        //TODO place in the same position
+        var newContainer = addContainer(item.domNode.parentElement);
+        newContainer.appendChild(item.domNode);
 
-        // Although the container adopts the styles of an item, it is not stored in the collection
-        containerDiv.className = "item container";
-        parentElement.appendChild(containerDiv); //TODO place in the same position
-        containerDiv.appendChild(item.domNode);
-
-        return containerDiv;
+        return newContainer;
     }
 
     /**
