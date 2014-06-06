@@ -251,7 +251,6 @@ var Flexboard = (function () {
                 if (item.updateInterval) {
                     element.updateInterval = item.updateInterval;
                 }
-                //element.updateInterval = get from the collection
             }
 
             return element;
