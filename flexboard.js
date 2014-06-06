@@ -8,7 +8,7 @@ var Flexboard = (function () {
      * Give value to all variables and initialize event listeners
      */
     function init() {
-        container = document.getElementById("container");
+        container = document.body;
     }
 
     /**

@@ -12,21 +12,17 @@ body {
     height: 100%;
 }
 
-#container {
+.container {
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    align-content: stretch;
     justify-content: flex-start;
-    align-items: flex-start;
-    align-content: flex-start;
 }
 
 .item {
     display: flex;
+    flex: 1 0 auto;
     border: 0;
-    height: 100%;
-    flex: 1 0 200px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-content: flex-start;
-    align-items: flex-start;
 }
