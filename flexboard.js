@@ -11,6 +11,20 @@ var Flexboard = (function () {
     }
 
     /**
+     * Creates a new container
+     *
+     * @param {object} parentContainer DOM node where the new container will be created (optional)
+     * @return {object} The newly created container
+     */
+    function addContainer(parentContainer) {
+        var newContainer = document.createElement("div");
+        parentContainer = parentContainer || document.body;
+        newContainer.className = "item container";
+        parentContainer.appendChild(newContainer);
+        return newContainer;
+    }
+
+    /**
      * Add a new element to the board
      *
      * @example
@@ -142,11 +156,19 @@ var Flexboard = (function () {
      * Populates a collection of items to the board
      *
      * @param {array} collection Array of objects that represent the items to be added
+     * @param {object} container DOM node that will contain the collection (optional)
      */
-    function loadCollection(collection) {
-        clear();
+    function loadCollection(collection, container) {
+        var newContainer;
         collection.forEach(function (item) {
-            addItem(item);
+            if (item.items) {
+                // Container with nested items
+                newContainer = addContainer(container);
+                loadCollection(item.items, newContainer);
+            } else {
+                // Individual item
+                addItem(item, container);
+            }
         });
     }
 
@@ -183,6 +205,7 @@ var Flexboard = (function () {
     function loadSavedState() {
         var storedCollection = JSON.parse(localStorage.getItem("flexboard-items"));
         if (storedCollection) {
+            clear();
             loadCollection(storedCollection);
         }
     }
