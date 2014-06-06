@@ -14,12 +14,22 @@ var Flexboard = (function () {
      * Creates a new container
      *
      * @param {object} parentContainer DOM node where the new container will be created (optional)
+     * @param {object} options Set of properties to apply to the new container (direction, size)
      * @return {object} The newly created container
      */
-    function addContainer(parentContainer) {
+    function addContainer(parentContainer, options) {
         var newContainer = document.createElement("div");
         parentContainer = parentContainer || document.body;
         newContainer.className = "item container";
+
+        if (options && options.direction) {
+            newContainer.style.flexDirection = options.direction;
+        }
+
+        if (options && options.relativeSize) {
+            newContainer.style.flexGrow = options.relativeSize;
+        }
+
         parentContainer.appendChild(newContainer);
         return newContainer;
     }
@@ -46,6 +56,11 @@ var Flexboard = (function () {
         // Populate the values
         iframe.src = item.url;
         iframe.className = "item";
+
+        // Establish the size, if set
+        if (item.relativeSize) {
+            iframe.style.flexGrow = item.relativeSize;
+        }
 
         // Add the new element
         container.appendChild(iframe);
@@ -163,7 +178,10 @@ var Flexboard = (function () {
         collection.forEach(function (item) {
             if (item.items) {
                 // Container with nested items
-                newContainer = addContainer(container);
+                newContainer = addContainer(container, {
+                    direction: item.direction || "row",
+                    relativeSize: item.relativeSize
+                });
                 loadCollection(item.items, newContainer);
             } else {
                 // Individual item
