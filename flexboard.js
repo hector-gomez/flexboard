@@ -69,6 +69,8 @@ var Flexboard = (function () {
             return false;
         }
 
+        var container = item.domNode.parentElement;
+
         // Stop updates,if necessary
         if (item.updateIntervalHandle) {
             stopUpdating(item);
@@ -79,6 +81,12 @@ var Flexboard = (function () {
 
         // Remove the item from the collection
         items.splice(items.indexOf(item), 1);
+
+
+        // If the container is empty, delete it (unless it's the body)
+        if (container.childElementCount === 0 && container !== document.body) {
+            container.parentElement.removeChild(container);
+        }
 
         return true;
     }
