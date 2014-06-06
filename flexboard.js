@@ -81,6 +81,29 @@ var Flexboard = (function () {
     }
 
     /**
+     * Wraps the item into a container so that more items can be added in that location
+     *
+     * @param {object} item The item that will be "transformed" into a container
+     * @return {object} The resulting container
+     */
+    function convertToContainer(item) {
+        if (typeof item !== "object" || !item.domNode) {
+            console.error("Invalid parameter:", item);
+            return false;
+        }
+
+        var parentElement = item.domNode.parentElement,
+            containerDiv = document.createElement("div");
+
+        // Although the container adopts the styles of an item, it is not stored in the collection
+        containerDiv.className = "item container";
+        parentElement.appendChild(containerDiv); //TODO place in the same position
+        containerDiv.appendChild(item.domNode);
+
+        return containerDiv;
+    }
+
+    /**
      * Ceases to automatically update an item
      *
      * @param {object} item Item that must stop refreshing its content
@@ -156,6 +179,7 @@ var Flexboard = (function () {
     return {
         addItem:            addItem,
         clear:              clear,
+        convertToContainer: convertToContainer,
         getAllItems:        getAllItems,
         loadCollection:     loadCollection,
         loadSavedState:     loadSavedState,
