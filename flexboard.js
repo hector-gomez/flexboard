@@ -1,14 +1,13 @@
 var Flexboard = (function () {
     "use strict";
 
-    var container,
-        items = [];
+    var items = [];
 
     /**
      * Give value to all variables and initialize event listeners
      */
     function init() {
-        container = document.body;
+        loadSavedState();
     }
 
     /**
@@ -20,11 +19,15 @@ var Flexboard = (function () {
      *          updateInterval: 25000
      *      });
      * @param {object} item Element to be added
+     * @param {object} container DOM node to which the element will be added (optional)
      * @return {object} The new item, which extends the original one
      */
-    function addItem(item) {
+    function addItem(item, container) {
         var iframe = document.createElement("iframe");
         var newItem = {};
+
+        // The body is the default container
+        container = container || document.body;
 
         // Populate the values
         iframe.src = item.url;
@@ -134,7 +137,9 @@ var Flexboard = (function () {
      */
     function loadCollection(collection) {
         clear();
-        collection.forEach(addItem);
+        collection.forEach(function (item) {
+            addItem(item);
+        });
     }
 
     /**
