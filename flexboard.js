@@ -174,7 +174,16 @@ var Flexboard = (function () {
      */
     function loadSavedState() {
         var storedCollection = JSON.parse(localStorage.getItem("flexboard-items"));
-        loadCollection(storedCollection);
+        if (storedCollection) {
+            loadCollection(storedCollection);
+        }
+    }
+
+    /**
+     * Deletes saved data from the browser's storage
+     */
+    function clearSavedState() {
+        localStorage.removeItem("flexboard-items");
     }
 
     // Initialize the application once the body is ready
@@ -184,6 +193,7 @@ var Flexboard = (function () {
     return {
         addItem:            addItem,
         clear:              clear,
+        clearSavedState:    clearSavedState,
         convertToContainer: convertToContainer,
         getAllItems:        getAllItems,
         loadCollection:     loadCollection,
