@@ -7,6 +7,11 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'flexboard.js': 'src/flexboard.js'
+                },
+                options: {
+                    bundleOptions: {
+                        standalone: 'Flexboard'
+                    }
                 }
             }
         }

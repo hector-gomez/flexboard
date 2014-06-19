@@ -1,4 +1,6 @@
-var Flexboard = (function () {
+var persistence = require('./persistence.js');
+
+module.exports = (function () {
     "use strict";
 
     var items = [];
@@ -215,54 +217,6 @@ var Flexboard = (function () {
     }
 
     /**
-     * Stores the current state of the application so that it can be resumed in the future
-     */
-    function saveCurrentState() {
-        var collection = [];
-
-        /**
-         * Helper function that parses a DOM node and extracts the relevant information
-         */
-        var parseNode = function(node) {
-            var element = {},
-                item;
-
-            if (node === document.body) {
-                // Top-most container
-                return [].map.call(node.childNodes, parseNode);
-            } else if (node.classList.contains("container")) {
-                // Parsing a container
-                if (node.style.flexDirection) {
-                    element.direction = node.style.flexDirection;
-                }
-                if (node.style.flexGrow) {
-                    element.relativeSize = node.style.flexGrow;
-                }
-                if (node.childElementCount > 0) {
-                    element.items = [].map.call(node.childNodes, parseNode);
-                }
-            } else {
-                // Parsing an individual item
-                item = getElementForNode(node);
-                element.url = node.src;
-                if (node.style.flexGrow) {
-                    element.relativeSize = node.style.flexGrow;
-                }
-                if (item.updateInterval) {
-                    element.updateInterval = item.updateInterval;
-                }
-            }
-
-            return element;
-        }
-
-        var collection = parseNode(document.body);
-
-        // Save to local storage
-        localStorage.setItem("flexboard-items", JSON.stringify(collection));
-    }
-
-    /**
      * Returns the application to the previously saved state
      */
     function loadSavedState() {
@@ -293,7 +247,7 @@ var Flexboard = (function () {
         loadCollection:     loadCollection,
         loadSavedState:     loadSavedState,
         removeItem:         removeItem,
-        saveCurrentState:   saveCurrentState,
+        saveCurrentState:   persistence.saveCurrentState,
         stopUpdating:       stopUpdating,
     };
 })();
