@@ -1,5 +1,8 @@
 node_modules
 
+# Bult files
+/flexboard.js
+
 # OS files
 .DS_Store
 Thumbs.db
