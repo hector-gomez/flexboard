@@ -1,3 +1,5 @@
+var registry = require('./registry.js');
+
 /**
  * This module handles saving and restoring the application state
  */
@@ -34,7 +36,7 @@ function saveCurrentState() {
             }
         } else {
             // Parsing an individual item
-            item = getElementForNode(node);
+            item = registry.getElementForNode(node);
             element.url = node.src;
             if (node.style.flexGrow) {
                 element.relativeSize = node.style.flexGrow;

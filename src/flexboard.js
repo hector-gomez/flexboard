@@ -1,9 +1,8 @@
 var persistence = require('./persistence.js');
+var registry = require('./registry.js');
 
 module.exports = (function () {
     "use strict";
-
-    var items = [];
 
     /**
      * Give value to all variables and initialize event listeners
@@ -87,7 +86,7 @@ module.exports = (function () {
         // Add the item to the collection
         newItem.url = item.url;
         newItem.domNode = iframe;
-        items.push(newItem);
+        registry.add(newItem);
 
         return newItem;
     }
@@ -115,7 +114,7 @@ module.exports = (function () {
         container.removeChild(item.domNode);
 
         // Remove the item from the collection
-        items.splice(items.indexOf(item), 1);
+        registry.remove(item);
 
 
         // If the container is empty, delete it (unless it's the body)
@@ -164,6 +163,7 @@ module.exports = (function () {
      * Removes all items from the board
      */
     function clear() {
+        var items = registry.getAll();
         for (var i = items.length - 1; i >= 0; i--) {
             removeItem(items[i]);
         };
@@ -193,30 +193,6 @@ module.exports = (function () {
     }
 
     /**
-     * Retrieves all the items in the internal collection
-     *
-     * @return {array} All the items in the internal collection
-     */
-    function getAllItems() {
-        return items;
-    }
-
-    /**
-     * Retrieves the item that is connected to the provided DOM node
-     *
-     * @param {object} domNode Element in the DOM tree that is referenced
-     * @return {array} The internal item
-     */
-    function getElementForNode(domNode) {
-        for (var i = 0; i < items.length; i++) {
-            if (items[i].domNode === domNode) {
-                return items[i];
-            }
-        };
-        return null;
-    }
-
-    /**
      * Returns the application to the previously saved state
      */
     function loadSavedState() {
@@ -243,7 +219,6 @@ module.exports = (function () {
         clear:              clear,
         clearSavedState:    clearSavedState,
         convertToContainer: convertToContainer,
-        getAllItems:        getAllItems,
         loadCollection:     loadCollection,
         loadSavedState:     loadSavedState,
         removeItem:         removeItem,
