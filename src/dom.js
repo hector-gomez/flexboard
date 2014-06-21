@@ -3,11 +3,11 @@
  * This includes adding, deleting and splitting elements.
  */
 module.exports = {
-    addContainer:       addContainer,
-    addItem:            addItem,
-    convertToContainer: convertToContainer,
-    init:               init,
-    removeItem:         removeItem
+    'addContainer':         addContainer,
+    'addItem':              addItem,
+    'convertToContainer':   convertToContainer,
+    'init':                 init,
+    'removeItem':           removeItem
 };
 
 /**
@@ -18,9 +18,9 @@ module.exports = {
  * @return {object} The newly created container
  */
 function addContainer(parentContainer, options) {
-    var newContainer = document.createElement("div");
+    var newContainer = document.createElement('div');
     parentContainer = parentContainer || document.body;
-    newContainer.className = "item container";
+    newContainer.className = 'item container';
 
     if (options && options.direction) {
         newContainer.style.flexDirection = options.direction;
@@ -42,14 +42,14 @@ function addContainer(parentContainer, options) {
  * @return {object} The node that has been added to the DOM to display the provided item
  */
 function addItem(item, container) {
-    var iframe = document.createElement("iframe");
+    var iframe = document.createElement('iframe');
 
     // The body is the default container
     container = container || document.body;
 
     // Populate the values
     iframe.src = item.url;
-    iframe.className = "item";
+    iframe.className = 'item';
 
     // Establish the size, if set
     if (item.relativeSize) {
@@ -69,8 +69,8 @@ function addItem(item, container) {
  * @return {object} The resulting container
  */
 function convertToContainer(item) {
-    if (typeof item !== "object" || !item.domNode) {
-        console.error("Invalid parameter:", item);
+    if (typeof item !== 'object' || !item.domNode) {
+        console.error('Invalid parameter:', item);
         return false;
     }
 

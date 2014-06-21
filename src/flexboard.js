@@ -3,7 +3,7 @@ var persistence = require('./persistence.js');
 var registry = require('./registry.js');
 
 module.exports = (function () {
-    "use strict";
+    'use strict';
 
     /**
      * Give value to all variables and initialize event listeners
@@ -36,11 +36,11 @@ module.exports = (function () {
         // Set the refresh rate, if necessary
         if (item.updateInterval) {
             if (item.updateInterval < 1000) {
-                console.error("No interval applied - updateInterval must be greater than 1000 (1 second)");
+                console.error('No interval applied - updateInterval must be greater than 1000 (1 second)');
             } else {
                 newItem.updateInterval = item.updateInterval;
                 newItem.updateIntervalHandle = window.setInterval(function (iframe) {
-                    iframe.src = "about:blank";
+                    iframe.src = 'about:blank';
                     iframe.src = item.url;
                 }, newItem.updateInterval, newItem.domNode);
             }
@@ -59,8 +59,8 @@ module.exports = (function () {
      * @return {boolean} Success removing the item
      */
     function removeItem(item) {
-        if (typeof item !== "object") {
-            console.error("Invalid parameter, must be an object:", item);
+        if (typeof item !== 'object') {
+            console.error('Invalid parameter, must be an object:', item);
             return false;
         }
 
@@ -115,7 +115,7 @@ module.exports = (function () {
             if (item.items) {
                 // Container with nested items
                 newContainer = dom.addContainer(container, {
-                    direction: item.direction || "row",
+                    direction: item.direction || 'row',
                     relativeSize: item.relativeSize
                 });
                 loadCollection(item.items, newContainer);

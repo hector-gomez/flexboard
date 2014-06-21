@@ -2,10 +2,10 @@
  * Module in charge of keeping an internal storage of all the items in the board
  */
 module.exports = {
-    add:                add,
-    getAll:             getAll,
-    getElementForNode:  getElementForNode,
-    remove:             remove
+    'add':                  add,
+    'getAll':               getAll,
+    'getElementForNode':    getElementForNode,
+    'remove':               remove
 };
 
 // Array containing all the nodes (the actual registry)

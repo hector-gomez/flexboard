@@ -9,7 +9,7 @@ module.exports = {
     'saveCurrentState': saveCurrentState
 };
 
-var storageKey = "flexboard-items";
+var storageKey = 'flexboard-items';
 
 /**
  * Deletes saved data from the browser's storage
