@@ -4,7 +4,7 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         browserify: {
-            dist: {
+            dev: {
                 files: {
                     'flexboard.js': 'src/flexboard.js'
                 },
