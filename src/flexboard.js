@@ -15,7 +15,8 @@ var registry = require('./registry.js');
     'loadSavedState':       loadSavedState,
     'removeItem':           removeItem,
     'saveCurrentState':     persistence.saveCurrentState,
-    'stopUpdating':         stopUpdating
+    'stopUpdating':         stopUpdating,
+    'version':              '0.0.1'
 };
 
 // Initialize the application once the body is ready
