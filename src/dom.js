@@ -3,10 +3,11 @@
  * This includes adding, deleting and splitting elements.
  */
 module.exports = {
-    addContainer:   addContainer,
-    addItem:        addItem,
-    init:           init,
-    removeItem:     removeItem
+    addContainer:       addContainer,
+    addItem:            addItem,
+    convertToContainer: convertToContainer,
+    init:               init,
+    removeItem:         removeItem
 };
 
 /**
@@ -59,6 +60,25 @@ function addItem(item, container) {
     container.appendChild(iframe);
 
     return iframe;
+}
+
+/**
+ * Wraps the item into a container so that more items can be added in that location
+ *
+ * @param {object} item The item that will be "transformed" into a container
+ * @return {object} The resulting container
+ */
+function convertToContainer(item) {
+    if (typeof item !== "object" || !item.domNode) {
+        console.error("Invalid parameter:", item);
+        return false;
+    }
+
+    //TODO place in the same position
+    var newContainer = addContainer(item.domNode.parentElement);
+    newContainer.appendChild(item.domNode);
+
+    return newContainer;
 }
 
 /**

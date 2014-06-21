@@ -79,25 +79,6 @@ module.exports = (function () {
     }
 
     /**
-     * Wraps the item into a container so that more items can be added in that location
-     *
-     * @param {object} item The item that will be "transformed" into a container
-     * @return {object} The resulting container
-     */
-    function convertToContainer(item) {
-        if (typeof item !== "object" || !item.domNode) {
-            console.error("Invalid parameter:", item);
-            return false;
-        }
-
-        //TODO place in the same position
-        var newContainer = dom.addContainer(item.domNode.parentElement);
-        newContainer.appendChild(item.domNode);
-
-        return newContainer;
-    }
-
-    /**
      * Ceases to automatically update an item
      *
      * @param {object} item Item that must stop refreshing its content
@@ -171,7 +152,7 @@ module.exports = (function () {
         addItem:            addItem,
         clear:              clear,
         clearSavedState:    clearSavedState,
-        convertToContainer: convertToContainer,
+        convertToContainer: dom.convertToContainer,
         getAll:             registry.getAll,
         loadCollection:     loadCollection,
         loadSavedState:     loadSavedState,
