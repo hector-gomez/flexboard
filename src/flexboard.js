@@ -1,3 +1,4 @@
+var dom = require('./dom.js');
 var persistence = require('./persistence.js');
 var registry = require('./registry.js');
 
@@ -8,35 +9,10 @@ module.exports = (function () {
      * Give value to all variables and initialize event listeners
      */
     function init() {
-        // Remove the initial text node
-        document.body.removeChild(document.body.childNodes[0]);
-
+        // Initialize the DOM
+        dom.init();
         // Replay the saved state
         loadSavedState();
-    }
-
-    /**
-     * Creates a new container
-     *
-     * @param {object} parentContainer DOM node where the new container will be created (optional)
-     * @param {object} options Set of properties to apply to the new container (direction, size)
-     * @return {object} The newly created container
-     */
-    function addContainer(parentContainer, options) {
-        var newContainer = document.createElement("div");
-        parentContainer = parentContainer || document.body;
-        newContainer.className = "item container";
-
-        if (options && options.direction) {
-            newContainer.style.flexDirection = options.direction;
-        }
-
-        if (options && options.relativeSize) {
-            newContainer.style.flexGrow = options.relativeSize;
-        }
-
-        parentContainer.appendChild(newContainer);
-        return newContainer;
     }
 
     /**
@@ -52,23 +28,10 @@ module.exports = (function () {
      * @return {object} The new item, which extends the original one
      */
     function addItem(item, container) {
-        var iframe = document.createElement("iframe");
-        var newItem = {};
-
-        // The body is the default container
-        container = container || document.body;
-
-        // Populate the values
-        iframe.src = item.url;
-        iframe.className = "item";
-
-        // Establish the size, if set
-        if (item.relativeSize) {
-            iframe.style.flexGrow = item.relativeSize;
-        }
-
-        // Add the new element
-        container.appendChild(iframe);
+        var newItem = {
+            url: item.url,
+            domNode: dom.addItem(item, container)
+        };
 
         // Set the refresh rate, if necessary
         if (item.updateInterval) {
@@ -76,16 +39,14 @@ module.exports = (function () {
                 console.error("No interval applied - updateInterval must be greater than 1000 (1 second)");
             } else {
                 newItem.updateInterval = item.updateInterval;
-                newItem.updateIntervalHandle = window.setInterval(function () {
+                newItem.updateIntervalHandle = window.setInterval(function (iframe) {
                     iframe.src = "about:blank";
                     iframe.src = item.url;
-                }, item.updateInterval);
+                }, newItem.updateInterval, newItem.domNode);
             }
         }
 
         // Add the item to the collection
-        newItem.url = item.url;
-        newItem.domNode = iframe;
         registry.add(newItem);
 
         return newItem;
