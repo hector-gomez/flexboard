@@ -5,7 +5,8 @@
 module.exports = {
     addContainer:   addContainer,
     addItem:        addItem,
-    init:           init
+    init:           init,
+    removeItem:     removeItem
 };
 
 /**
@@ -66,4 +67,22 @@ function addItem(item, container) {
 function init() {
     // Remove the initial text node
     document.body.removeChild(document.body.childNodes[0]);
+}
+
+/**
+ * Removes an element from the board
+ * If it is the last item remaining in the container, will remove it too
+ *
+ * @param {object} item Item to be deleted
+ */
+function removeItem(item) {
+    var container = item.domNode.parentElement;
+
+    // Remove the element from the view
+    container.removeChild(item.domNode);
+
+    // If the container is empty, delete it (unless it's the body)
+    if (container.childElementCount === 0 && container !== document.body) {
+        container.parentElement.removeChild(container);
+    }
 }

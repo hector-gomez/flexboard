@@ -64,24 +64,16 @@ module.exports = (function () {
             return false;
         }
 
-        var container = item.domNode.parentElement;
-
         // Stop updates,if necessary
         if (item.updateIntervalHandle) {
             stopUpdating(item);
         }
 
         // Remove the element from the view
-        container.removeChild(item.domNode);
+        dom.removeItem(item);
 
         // Remove the item from the collection
         registry.remove(item);
-
-
-        // If the container is empty, delete it (unless it's the body)
-        if (container.childElementCount === 0 && container !== document.body) {
-            container.parentElement.removeChild(container);
-        }
 
         return true;
     }
