@@ -130,18 +130,11 @@ module.exports = (function () {
      * Returns the application to the previously saved state
      */
     function loadSavedState() {
-        var storedCollection = JSON.parse(localStorage.getItem("flexboard-items"));
+        var storedCollection = persistence.loadSavedState();
         if (storedCollection) {
             clear();
             loadCollection(storedCollection);
         }
-    }
-
-    /**
-     * Deletes saved data from the browser's storage
-     */
-    function clearSavedState() {
-        localStorage.removeItem("flexboard-items");
     }
 
     // Initialize the application once the body is ready
@@ -151,7 +144,7 @@ module.exports = (function () {
     return {
         addItem:            addItem,
         clear:              clear,
-        clearSavedState:    clearSavedState,
+        clearSavedState:    persistence.clearSavedState,
         convertToContainer: dom.convertToContainer,
         getAll:             registry.getAll,
         loadCollection:     loadCollection,

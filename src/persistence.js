@@ -4,8 +4,28 @@ var registry = require('./registry.js');
  * This module handles saving and restoring the application state
  */
 module.exports = {
+    'clearSavedState':  clearSavedState,
+    'loadSavedState':   loadSavedState,
     'saveCurrentState': saveCurrentState
 };
+
+var storageKey = "flexboard-items";
+
+/**
+ * Deletes saved data from the browser's storage
+ */
+function clearSavedState() {
+    localStorage.removeItem(storageKey);
+}
+
+/**
+ * Returns the previously saved application state
+ *
+ * @return {object} Collection that was saved, if any
+ */
+function loadSavedState() {
+    return JSON.parse(localStorage.getItem(storageKey));
+}
 
 /**
  * Stores the current state of the application so that it can be resumed in the future
