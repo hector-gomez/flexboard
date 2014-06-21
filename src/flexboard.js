@@ -91,7 +91,7 @@ module.exports = (function () {
         }
 
         //TODO place in the same position
-        var newContainer = addContainer(item.domNode.parentElement);
+        var newContainer = dom.addContainer(item.domNode.parentElement);
         newContainer.appendChild(item.domNode);
 
         return newContainer;
@@ -133,7 +133,7 @@ module.exports = (function () {
         collection.forEach(function (item) {
             if (item.items) {
                 // Container with nested items
-                newContainer = addContainer(container, {
+                newContainer = dom.addContainer(container, {
                     direction: item.direction || "row",
                     relativeSize: item.relativeSize
                 });
@@ -172,6 +172,7 @@ module.exports = (function () {
         clear:              clear,
         clearSavedState:    clearSavedState,
         convertToContainer: convertToContainer,
+        getAll:             registry.getAll,
         loadCollection:     loadCollection,
         loadSavedState:     loadSavedState,
         removeItem:         removeItem,
