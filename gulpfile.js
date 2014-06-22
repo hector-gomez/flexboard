@@ -12,7 +12,7 @@ gulp.task('browserify', function() {
 
     var b = browserify({
         'basedir': './src',
-        'entries': ['./flexboard.js']
+        'entries': ['./index.js']
     });
 
     var stream = b.bundle({
