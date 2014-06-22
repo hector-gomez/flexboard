@@ -11,6 +11,7 @@
     "devDependencies": {
         "gulp": "^3.8.1",
         "browserify": "^4.1.11",
+        "watchify": "^0.10.2",
         "grunt": "~0.4.5",
         "grunt-browserify": "~2.1.0"
     }

@@ -1,25 +1,46 @@
 var gulp        = require('gulp');
 var browserify  = require('browserify');
+var watchify    = require('watchify');
 var fs          = require('fs');
 
-gulp.task('default', ['browserify']);
+// Flags
+var watchChanges = false;
+
+// Top-level tasks
+gulp.task('default', ['bundle']);
+gulp.task('watch', ['watch for changes', 'bundle']);
+
+/**
+ * Tells the "bundle" task that it must use watchify instead
+ */
+gulp.task('watch for changes', function() {
+    watchChanges = true;
+});
 
 /**
  * Use Browserify to build the application
  */
-gulp.task('browserify', function() {
-    var destFile = fs.createWriteStream('flexboard.js');
+gulp.task('bundle', function() {
 
-    var b = browserify({
+    var bundleMethod = watchChanges ? watchify : browserify;
+
+    var bundler = bundleMethod({
         'basedir': './src',
         'entries': ['./index.js']
     });
 
-    var stream = b.bundle({
-        'standalone': 'Flexboard'
-    });
+    var bundle = function () {
+        var destFile = fs.createWriteStream('flexboard.js');
+        var readStream = bundler.bundle({
+                'standalone': 'Flexboard'
+            });
+        readStream.pipe(destFile);
+        return readStream;
+    };
 
-    stream.pipe(destFile);
+    if (watchChanges) {
+        bundler.on('update', bundle);
+    }
 
-    return stream;
+    return bundle();
 });
