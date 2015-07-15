@@ -26,14 +26,13 @@ gulp.task('bundle', function() {
 
     var bundler = bundleMethod({
         'basedir': './src',
-        'entries': ['./index.js']
+        'entries': ['./index.js'],
+        'standalone': 'Flexboard'
     });
 
     var bundle = function () {
         var destFile = fs.createWriteStream('flexboard.js');
-        var readStream = bundler.bundle({
-                'standalone': 'Flexboard'
-            });
+        var readStream = bundler.bundle();
         readStream.pipe(destFile);
         return readStream;
     };
