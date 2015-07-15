@@ -16,14 +16,14 @@ var registry = require('./registry.js');
     'removeItem':           removeItem,
     'saveCurrentState':     persistence.saveCurrentState,
     'stopUpdating':         stopUpdating,
-    'version':              '0.0.1'
+    'version':              '0.0.2'
 };
 
 // Initialize the application once the body is ready
 window.onload = init;
 
 /**
- * Add a new element to the board
+ * Adds a new element to the board
  *
  * @example
  *      Flexboard.addItem({

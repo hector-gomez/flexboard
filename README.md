@@ -8,12 +8,50 @@ information from multiple sources using iframes.
 
 The layout is designed using _flexbox_, hence the name :-)
 
+# Reference
 
-## License
+## Working with items and containers
 
-The MIT License (MIT)
+### addItem(item, container)
 
-Copyright (c) 2014 Héctor Gómez
+Adds a new element to the board.
+
+#### item
+
+Type: **object**
+
+A JSON object representing the item to add to the board. Accepted attributes:
+
+* `url` **string**
+  * URL to display
+* `updateInterval` **number** _optional_
+  * In milliseconds.
+  * Enables refreshing this item at the specified rate.
+  * Minimum value: 1000 (1 second)
+* `relativeSize` **number** _optional_
+  * Size of this item in comparison to others in the same container.
+
+#### container
+
+Type: **object** _optional_
+
+DOM node to which the element will be added. If not set the item will be added to the document's body.
+
+
+**Example:**
+
+```
+Flexboard.addItem({
+    url: "http://domain.com",
+    updateInterval: 25000
+});
+```
+
+# License
+
+**The MIT License (MIT)**
+
+Copyright (c) 2014 - 2015 Héctor Gómez
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
