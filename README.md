@@ -12,6 +12,28 @@ The layout is designed using _flexbox_, hence the name :-)
 
 ## Working with items and containers
 
+### addContainer(parentContainer, options)
+
+Creates a new container where to put items.
+
+#### parentContainer
+
+Type: **object** _optional_
+
+DOM node where the new container will be created. If not specified, the document body node will be used.
+
+#### options
+
+Type: **object** _optional_
+
+A JSON object containing key-value pairs. Accepted attributes:
+
+* `direction` **string** _optional_
+  * The direction in which the items in this container will be displayed
+  * Either `row` or `column`
+* `relativeSize` **number** _optional_
+  * Size of this container in comparison to others in the same parent container.
+
 ### addItem(item, container)
 
 Adds a new element to the board.
@@ -31,13 +53,6 @@ A JSON object representing the item to add to the board. Accepted attributes:
 * `relativeSize` **number** _optional_
   * Size of this item in comparison to others in the same container.
 
-#### container
-
-Type: **object** _optional_
-
-DOM node to which the element will be added. If not set the item will be added to the document's body.
-
-
 **Example:**
 
 ```
@@ -46,6 +61,82 @@ Flexboard.addItem({
     updateInterval: 25000
 });
 ```
+
+#### container
+
+Type: **object** _optional_
+
+DOM node to which the element will be added. If not set the item will be added to the document's body.
+
+### clear()
+
+Wipes out the current contents of the board.
+
+### getAll()
+
+Returns: **array**
+
+Returns all the items currently in the board.
+
+## Working with collections
+
+### loadCollection(collection, container)
+
+Populates a collection of items to the board.
+
+#### collection
+
+Type: **array**
+
+Array of objects that represent the items and containers to be added.
+
+If the item contains a property named `items` then it is a container.
+
+**Example:**
+
+```
+Flexboard.loadCollection([
+    {
+        url: "http://www.cnn.com",
+        updateInterval: 120000
+    },
+    {
+        direction: "column",
+        relativeSize: 2,
+        items: [
+            {
+                url: "http://www.bing.com"
+            },
+            {
+                url: "http://www.w3c.org",
+                relativeSize: 3
+            }
+        ]
+    }
+]);
+```
+
+#### container
+
+Type: **object** _optional_
+
+DOM node that will contain the collection. If not specified, the document body will be used.
+
+## Saving and loading state
+
+### clearSavedState()
+
+Removes all the stored data.
+
+### loadSavedState()
+
+Loads the latest saved state, if any. This will effectively change the board's contents.
+
+### saveCurrentState()
+
+Saves the current state. If the browser tab / window is refreshed it will show the current state automatically.
+
+To load this state programmatically use `loadSavedState()`.
 
 # License
 
