@@ -6,6 +6,7 @@ var registry = require('./registry.js');
  * Main module and the application's entry point
  */
  module.exports = {
+    'addContainer':         dom.addContainer,
     'addItem':              addItem,
     'clear':                clear,
     'clearSavedState':      persistence.clearSavedState,
@@ -82,7 +83,7 @@ function init() {
 /**
  * Populates a collection of items to the board
  *
- * @param {array} collection Array of objects that represent the items to be added
+ * @param {array} collection Array of objects that represent the items and containers to be added
  * @param {object} container DOM node that will contain the collection (optional)
  */
 function loadCollection(collection, container) {
